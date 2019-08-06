@@ -1,0 +1,54 @@
+alias caen="ssh wanless@login.engin.umich.edu"
+alias edit="nano ~/.bash_profile && source ~/.bash_profile"
+alias python="python3"
+alias pip="pip3"
+alias fish="asciiquarium"
+alias allow="chmod -R +xrw"
+
+alias cl="clear && ls"
+
+function cd {
+  builtin cd $1 && cl
+}
+
+alias gs="git status"
+alias ga="git add"
+alias gc="git commit -m"
+alias gb="betterbranch"
+alias gco="bettercheckout"
+alias gdel="deletebranch"
+
+GREEN="\033[0;32m"
+NOCOLOR="\033[0m"
+
+function betterbranch {
+  branches=($(git branch | grep "  "))
+  i=0
+  for branch in ${branches[@]}
+  do
+    echo "  {$i}  $branch"
+    ((i = i + 1))
+  done
+  current=$(git branch | grep --fixed-strings "*" | tr -d "* ")
+  echo -e "* {$i}  $GREEN$current$NOCOLOR"
+}
+
+function deletebranch {
+  branches=($(git branch | grep "  "))
+  allbranches=("${branches[@]}" "$(git branch | grep --fixed-strings "*" | tr -d "* ")")
+  for index in "$@"
+  do
+    git branch -D ${allbranches[$index]}
+  done
+}
+
+function bettercheckout {
+  if [[ $1 = "-b" ]]
+  then
+    git checkout -b $2
+  else
+    branches=($(git branch | grep "  "))
+    allbranches=("${branches[@]}" "$(git branch | grep --fixed-strings "*" | tr -d "* ")")
+    git checkout ${allbranches[$1]}
+  fi
+}
