@@ -46,6 +46,9 @@ function bettercheckout {
   if [[ $1 = "-b" ]]
   then
     git checkout -b $2
+  elif ! [[ "$1" =~ ^[0-9]+$ ]]
+  then
+    git checkout $1
   else
     branches=($(git branch | grep "  "))
     allbranches=("${branches[@]}" "$(git branch | grep --fixed-strings "*" | tr -d "* ")")
