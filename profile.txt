@@ -5,6 +5,8 @@ alias pip="pip3"
 alias fish="asciiquarium"
 alias allow="chmod -R +xrw"
 
+alias dylan='echo \(´・ω・｀\)'
+
 alias cl="clear && ls"
 
 function cd {
